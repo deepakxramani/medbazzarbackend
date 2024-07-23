@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+    <defs>
+        <linearGradient id="b" x1="0%" y1="50%" y2="50%">
+            <stop offset="0%" stop-color="#FFCB1E"/>
+            <stop offset="100%" stop-color="#FF9D17"/>
+        </linearGradient>
+        <circle id="a" cx="20" cy="20" r="20"/>
+        <linearGradient id="d" x1="50%" x2="54.595%" y1="23.068%" y2="68.963%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#FFF"/>
+        </linearGradient>
+        <linearGradient id="e" x1="50%" x2="54.595%" y1="23.068%" y2="68.963%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#FFF"/>
+        </linearGradient>
+        <linearGradient id="f" x1="50%" x2="50%" y1="88.658%" y2="37.019%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".477"/>
+            <stop offset="100%" stop-color="#FFF"/>
+        </linearGradient>
+        <linearGradient id="g" x1="50%" x2="54.595%" y1="23.068%" y2="68.963%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#FFF"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="c" fill="#fff">
+            <use xlink:href="#a"/>
+        </mask>
+        <use fill="url(#b)" xlink:href="#a"/>
+        <g mask="url(#c)" opacity=".987">
+            <path fill="url(#d)" d="M12.89 0H1.173C.525 0 0 .525 0 1.172V12.89c0 .647.525 1.171 1.172 1.171H12.89c.647 0 1.171-.524 1.171-1.171V1.17C14.063.526 13.538 0 12.892 0z" transform="translate(5 11)"/>
+            <path fill="url(#e)" d="M29.277 16.027A1.172 1.172 0 0 0 28 16.28L16.28 27.999A1.172 1.172 0 0 0 17.11 30h11.718c.647 0 1.172-.525 1.172-1.172V17.11c0-.474-.285-.901-.723-1.082z" transform="translate(5 11)"/>
+            <path fill="url(#f)" d="M22.969 14.063A7.04 7.04 0 0 0 30 7.03 7.04 7.04 0 0 0 22.969 0a7.04 7.04 0 0 0-7.032 7.031 7.04 7.04 0 0 0 7.032 7.032z" transform="translate(5 11)"/>
+            <path fill="url(#g)" d="M13.72 17.938l-5.031 5.03L13.719 28a1.172 1.172 0 1 1-1.657 1.658l-5.03-5.03L2 29.656A1.172 1.172 0 0 1 .343 28l5.03-5.031-5.03-5.03A1.172 1.172 0 1 1 2 16.28l5.031 5.03 5.031-5.03a1.172 1.172 0 1 1 1.657 1.657z" transform="translate(5 11)"/>
+        </g>
+    </g>
+</svg>
