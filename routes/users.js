@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pool=require('./pool')
+var upload = require('./multer');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/submit_user',function(req,res){
   try{
-    pool.query("insert into userdata (mobileno,emailid,username) values(?,?,?)",[req.body.mobileno,req.body.emailid,req.body.username],function(error,result){
+    pool.query("insert into userdata (mobileno,emailid,username,address) values(?,?,?,?)",[req.body.mobileno,req.body.emailid,req.body.username, req.body.address],function(error,result){
      if(error)
      {    console.log(error)
          res.status(200).json({status:false,message:'Server Error:Pls Contact Database Administrator...'})}
@@ -27,9 +28,47 @@ router.post('/submit_user',function(req,res){
     console.log('Error:',e)
     res.status(200).json({status:false,message:'Server Error:Pls Contact Server Administrator...'})
   }
-
-    
 })
+
+
+router.post('/edit_user_data',function(req,res){
+  try{
+    pool.query("UPDATE userdata SET username = ?, emailid = ?, address = ? WHERE mobileno = ?",[req.body.username, req.body.emailid, req.body.address, req.body.mobileno],function(error,result){
+     if(error)
+     {    console.log(error)
+         res.status(200).json({status:false,message:'Server Error:Pls Contact Database Administrator...'})}
+     else
+     {
+        res.status(200).json({status:true,message:'Details Updated!',data:result})
+        console.log(result)
+     }
+    
+    })
+
+ }
+  catch(e)
+  {
+    console.log('Error:',e)
+    res.status(200).json({status:false,message:'Server Error:Pls Contact Server Administrator...'})
+  }  
+})
+
+
+router.post('/edit_user_picture', upload.single('picture'), function(req, res, next) {
+  try {
+    pool.query("UPDATE userdata SET picture = ? WHERE mobileno = ?", [req.file.filename, req.body.mobileno], function(error, result) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: 'Server Error: Please contact the database administrator.' });
+      } else {
+        res.status(200).json({ status: true, message: 'Picture updated successfully.' });
+      }
+    });
+  } catch (e) {
+    console.log('Error:', e);
+    res.status(500).json({ status: false, message: 'Server Error: Please contact the server administrator.' });
+  }
+});
 
 router.post('/check_userdata',function(req,res){
   try{
