@@ -1,12 +1,14 @@
+require('dotenv').config();
 var mysql = require('mysql')
+
 var pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'mysql-3f5f5d7b-medbazzar.k.aivencloud.com',
-    user: 'avnadmin',
-    password: 'AVNS_mcpfDXjLpYLEWBVcjPj',
-    database: 'defaultdb',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     multipleStatements: true,
-    port: 18107
+    port: process.env.DB_PORT
 })
 module.exports = pool;
 
