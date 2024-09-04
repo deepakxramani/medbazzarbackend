@@ -1,8 +1,7 @@
 require('dotenv').config();
 var mysql = require('mysql2')
 
-
-var pool = mysql.createPool({
+var pool = mysql.createConnection({
     connectionLimit: 10,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -11,6 +10,7 @@ var pool = mysql.createPool({
     multipleStatements: true,
     port: process.env.DB_PORT
 })
+
 module.exports = pool;
 
 
