@@ -42,6 +42,7 @@ app.use('/admin', adminRouter)
 app.use('/banner', bannersRouter)
 app.use('/concern', concernsRouter)
 app.use('/userinterface', userInterfaceRouter)
+app.use(cors({ origin: 'https://medbazzar.netlify.app' }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
