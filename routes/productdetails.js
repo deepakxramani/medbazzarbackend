@@ -93,9 +93,14 @@ router.get('/display_all_product_details',function(req,res,next){
 })
 
 
-router.post('/edit_product_picture',function(req,res,next){
+router.post('/edit_product_picture', upload.any(), function(req,res,next){
+
+    var files=req.files.map((item)=>{
+        return item.filename
+    })
+
     try{
-        pool.query("UPDATE productdetails SET categoryid=?, subcategoryid=?,brandid=?,productid=?,productsubname=?,description=?,weight=?,weighttype=?,type=?,packaging=?,qty=?,price=?,offerprice=?,offertype=? WHERE productdetailid=?",[req.body.categoryid,req.body.subcategoryid, req.body.brandid,req.body.productid,req.body.productsubname,req.body.description,req.body.weight,req.body.weighttype,req.body.type,req.body.packaging,req.body.qty,req.body.price,req.body.offerprice,req.body.offertype, req.body.productdetailid], function(error,result){
+        pool.query("UPDATE productdetails SET picture=? WHERE productdetailid=?",[req.body.productdetailid, files+""], function(error,result){
             if(error)
             {
                 res.status(200).json({status: false, meassage:'Server Error:Pls Contact Database Administrator...'})
@@ -103,7 +108,7 @@ router.post('/edit_product_picture',function(req,res,next){
             }
             else
             {
-                res.status(200).json({status:true, message: 'Product Details Edited Successfully!'})
+                res.status(200).json({status:true, message: 'Pictures Edited Successfully!'})
             }
         })
     }
