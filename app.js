@@ -25,7 +25,6 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,7 +39,13 @@ app.use('/admin', adminRouter);
 app.use('/banner', bannersRouter);
 app.use('/concern', concernsRouter);
 app.use('/userinterface', userInterfaceRouter);
-app.use(cors({ origin: 'https://medbazzar.netlify.app' }));
+app.use(
+  cors({
+    origin: ['https://medbazzar.netlify.app'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+  })
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
