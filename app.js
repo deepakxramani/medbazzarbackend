@@ -4,20 +4,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors=require('cors');
-
-
+var cors = require('cors');
 
 var usersRouter = require('./routes/users');
-var categoryRouter=require('./routes/category');
-var brandsRouter=require('./routes/brands');
-var subcategoryRouter=require('./routes/subcategory');
-var productsRouter=require('./routes/products');
-var productDetailsRouter=require('./routes/productdetails');
-var adminRouter=require('./routes/admin')
-var bannersRouter=require('./routes/banner')
-var concernsRouter=require('./routes/concern')
-var userInterfaceRouter=require('./routes/userinterface')
+var categoryRouter = require('./routes/category');
+var brandsRouter = require('./routes/brands');
+var subcategoryRouter = require('./routes/subcategory');
+var productsRouter = require('./routes/products');
+var productDetailsRouter = require('./routes/productdetails');
+var adminRouter = require('./routes/admin');
+var bannersRouter = require('./routes/banner');
+var concernsRouter = require('./routes/concern');
+var userInterfaceRouter = require('./routes/userinterface');
 
 var app = express();
 
@@ -37,20 +35,20 @@ app.use('/category', categoryRouter);
 app.use('/brands', brandsRouter);
 app.use('/subcategory', subcategoryRouter);
 app.use('/products', productsRouter);
-app.use('/productdetails', productDetailsRouter)
-app.use('/admin', adminRouter)
-app.use('/banner', bannersRouter)
-app.use('/concern', concernsRouter)
-app.use('/userinterface', userInterfaceRouter)
+app.use('/productdetails', productDetailsRouter);
+app.use('/admin', adminRouter);
+app.use('/banner', bannersRouter);
+app.use('/concern', concernsRouter);
+app.use('/userinterface', userInterfaceRouter);
 app.use(cors({ origin: 'https://medbazzar.netlify.app' }));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -60,5 +58,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+console.log('Node version:', process.version);
 
 module.exports = app;
