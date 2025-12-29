@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
+const cors = require('cors');
 
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/category');
@@ -41,9 +41,10 @@ app.use('/concern', concernsRouter);
 app.use('/userinterface', userInterfaceRouter);
 app.use(
   cors({
-    origin: ['https://medbazzar.netlify.app'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    origin: ['http://localhost:3000', 'https://medbazzar.netlify.app'],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
