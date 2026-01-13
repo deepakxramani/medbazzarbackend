@@ -42,7 +42,12 @@ app.use('/concern', concernsRouter);
 app.use('/userinterface', userInterfaceRouter);
 app.use(
   cors({
-    origin: ['https://medbazzar.netlify.app'],
+    origin: [
+      'https://medbazzar.netlify.app',
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:5000',
+    ],
     credentials: true,
   })
 );
