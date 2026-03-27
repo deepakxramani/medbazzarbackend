@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
-const pool = require('../config/pool');
 
 router.post('/submit_product_details', upload.any(), function (req, res, next) {
   try {
