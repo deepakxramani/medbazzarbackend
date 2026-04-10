@@ -24,8 +24,7 @@ jobs:
 
       - name: Start server check
         run: |
-          node ./bin/www &
-          sleep 5
+          timeout 5s node ./bin/www || exit 1
 
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
