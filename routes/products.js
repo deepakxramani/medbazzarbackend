@@ -3,11 +3,6 @@ var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 router.post(
   '/submit_product',
   upload.single('picture'),

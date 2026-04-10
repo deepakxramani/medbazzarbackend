@@ -41,6 +41,10 @@ router.post(
 );
 
 router.post('/edit_brand_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'update brands set brandname=? where brandid=?',
@@ -72,6 +76,10 @@ router.post(
   '/edit_brand_icon',
   upload.single('brandicon'),
   function (req, res, next) {
+    if (!pool) {
+      console.log('DB not available, skipping query');
+      return;
+    }
     try {
       pool.query(
         'update brands set brandicon=? where brandid=?',
@@ -102,6 +110,10 @@ router.post(
 );
 
 router.post('/delete_brand_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'delete from brands where brandid=?',
@@ -130,6 +142,10 @@ router.post('/delete_brand_data', function (req, res, next) {
 });
 
 router.get('/display_all_brands', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'select * from brands where brandid!=0',
@@ -157,6 +173,10 @@ router.get('/display_all_brands', function (req, res, next) {
 });
 
 router.post('/fetch_all_brands_by_subcategoryid', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'select * from brands where subcategoryid=?',
