@@ -68,6 +68,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-throw new Error('test error');
-
 module.exports = app;
