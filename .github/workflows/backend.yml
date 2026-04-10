@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -29,8 +30,11 @@ jobs:
           echo "Exit code: $EXIT_CODE"
 
           if [ $EXIT_CODE -ne 0 ] && [ $EXIT_CODE -ne 124 ]; then
-          exit $EXIT_CODE
+            exit $EXIT_CODE
           fi
 
+          echo "Server check passed"
+
       - name: Trigger Render Deploy
+        if: success() # ✅ only deploy if CI passed
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
