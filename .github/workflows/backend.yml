@@ -26,7 +26,9 @@ jobs:
         run: |
           NODE_ENV=test timeout 5s node ./bin/www
           EXIT_CODE=$?
-          if [ $EXIT_CODE -ne 124 ]; then exit $EXIT_CODE; fi
+          if [ $EXIT_CODE -ne 0 ] && [ $EXIT_CODE -ne 124 ]; then
+          exit $EXIT_CODE
+          fi
 
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
