@@ -24,7 +24,7 @@ jobs:
 
       - name: Start server check
         run: |
-          node server.js &
+          node ./bin/www &
           sleep 5
 
       - name: Trigger Render Deploy
