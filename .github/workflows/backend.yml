@@ -23,7 +23,10 @@ jobs:
         run: echo "No tests yet"
 
       - name: Start server check
-        run: NODE_ENV=test timeout 5s node ./bin/www || exit 1
+        run: |
+          NODE_ENV=test timeout 5s node ./bin/www
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -ne 124 ]; then exit $EXIT_CODE; fi
 
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
