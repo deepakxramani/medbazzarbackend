@@ -3,17 +3,17 @@ var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
 router.post('/submit_user', function (req, res) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     pool.query(
       'insert into userdata (mobileno,emailid,username,address) values(?,?,?,?)',
@@ -26,12 +26,10 @@ router.post('/submit_user', function (req, res) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
           res
             .status(200)
@@ -42,16 +40,19 @@ router.post('/submit_user', function (req, res) {
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 
 router.post('/edit_user_data', function (req, res) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     pool.query(
       'UPDATE userdata SET username = ?, emailid = ?, address = ? WHERE mobileno = ?',
@@ -64,12 +65,10 @@ router.post('/edit_user_data', function (req, res) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
           res
             .status(200)
@@ -80,12 +79,10 @@ router.post('/edit_user_data', function (req, res) {
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 
@@ -93,6 +90,11 @@ router.post(
   '/edit_user_picture',
   upload.single('picture'),
   function (req, res, next) {
+    if (!pool) {
+      console.log('DB not available, skipping query');
+      return;
+    }
+
     try {
       pool.query(
         'UPDATE userdata SET picture = ? WHERE mobileno = ?',
@@ -100,13 +102,11 @@ router.post(
         function (error, result) {
           if (error) {
             console.log(error);
-            res
-              .status(500)
-              .json({
-                status: false,
-                message:
-                  'Server Error: Please contact the database administrator.',
-              });
+            res.status(500).json({
+              status: false,
+              message:
+                'Server Error: Please contact the database administrator.',
+            });
           } else {
             res
               .status(200)
@@ -116,17 +116,20 @@ router.post(
       );
     } catch (e) {
       console.log('Error:', e);
-      res
-        .status(500)
-        .json({
-          status: false,
-          message: 'Server Error: Please contact the server administrator.',
-        });
+      res.status(500).json({
+        status: false,
+        message: 'Server Error: Please contact the server administrator.',
+      });
     }
   },
 );
 
 router.post('/check_userdata', function (req, res) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     pool.query(
       'select * from userdata where mobileno=?',
@@ -134,21 +137,17 @@ router.post('/check_userdata', function (req, res) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
           if (result.length == 1) {
-            res
-              .status(200)
-              .json({
-                status: true,
-                message: 'User found...',
-                data: result[0],
-              });
+            res.status(200).json({
+              status: true,
+              message: 'User found...',
+              data: result[0],
+            });
             console.log(result);
           } else {
             res
@@ -160,16 +159,19 @@ router.post('/check_userdata', function (req, res) {
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 
 router.post('/check_user_address', function (req, res) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     console.log('user', req.body);
     pool.query(
@@ -178,12 +180,10 @@ router.post('/check_user_address', function (req, res) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
           if (result.length == 1) {
             res
@@ -200,16 +200,19 @@ router.post('/check_user_address', function (req, res) {
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 
 router.post('/submit_user_address', function (req, res) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     console.log('user', req.body);
     pool.query(
@@ -225,35 +228,34 @@ router.post('/submit_user_address', function (req, res) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
-          res
-            .status(200)
-            .json({
-              status: true,
-              message: 'Address Submitted Sucessfully...',
-            });
+          res.status(200).json({
+            status: true,
+            message: 'Address Submitted Sucessfully...',
+          });
           console.log(result);
         }
       },
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 
 router.post('/save_order', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     console.log('user', req.body);
     pool.query(
@@ -269,12 +271,10 @@ router.post('/save_order', function (req, res, next) {
       function (error, result) {
         if (error) {
           console.log(error);
-          res
-            .status(200)
-            .json({
-              status: false,
-              message: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            message: 'Server Error:Pls Contact Database Administrator...',
+          });
         } else {
           console.log(result);
           pool.query(
@@ -293,20 +293,15 @@ router.post('/save_order', function (req, res, next) {
             function (error, result) {
               if (error) {
                 console.log(error);
-                res
-                  .status(500)
-                  .json({
-                    status: false,
-                    message:
-                      'Server Error:Pls Contact Database Administrator...',
-                  });
+                res.status(500).json({
+                  status: false,
+                  message: 'Server Error:Pls Contact Database Administrator...',
+                });
               } else {
-                res
-                  .status(200)
-                  .json({
-                    status: true,
-                    message: 'Order Submitted Succesfully...',
-                  });
+                res.status(200).json({
+                  status: true,
+                  message: 'Order Submitted Succesfully...',
+                });
               }
             },
           );
@@ -315,12 +310,10 @@ router.post('/save_order', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error:', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error:Pls Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error:Pls Contact Server Administrator...',
+    });
   }
 });
 

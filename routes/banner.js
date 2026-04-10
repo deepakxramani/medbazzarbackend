@@ -3,13 +3,13 @@ var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 /* GET home page. */
 router.post('/submit_banner_details', upload.any(), function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   try {
     // console.log("FILES", req.files)
     var files = req.files.map((item) => {

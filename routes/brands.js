@@ -3,46 +3,39 @@ var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 router.post(
   '/submit_brand',
   upload.single('brandicon'),
   function (req, res, next) {
+    if (!pool) {
+      console.log('DB not available, skipping query');
+      return;
+    }
     try {
       pool.query(
         'insert into brands (brandname, brandicon) values(?,?)',
         [req.body.brandname, req.file.filename],
         function (error, result) {
           if (error) {
-            res
-              .status(200)
-              .json({
-                status: false,
-                meassage: 'Server Error:Pls Contact Database Administrator...',
-              });
+            res.status(200).json({
+              status: false,
+              meassage: 'Server Error:Pls Contact Database Administrator...',
+            });
             console.log(error);
           } else {
-            res
-              .status(200)
-              .json({
-                status: true,
-                message: 'Brand Submitted Successfully...',
-              });
+            res.status(200).json({
+              status: true,
+              message: 'Brand Submitted Successfully...',
+            });
           }
         },
       );
     } catch (e) {
       console.log('Error: ', e);
-      res
-        .status(200)
-        .json({
-          status: false,
-          message: 'Server Error: Please Contact Server Administrator...',
-        });
+      res.status(200).json({
+        status: false,
+        message: 'Server Error: Please Contact Server Administrator...',
+      });
     }
   },
 );
@@ -54,12 +47,10 @@ router.post('/edit_brand_data', function (req, res, next) {
       [req.body.brandname, req.body.brandid],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -70,12 +61,10 @@ router.post('/edit_brand_data', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
@@ -89,31 +78,25 @@ router.post(
         [req.file.filename, req.body.brandid],
         function (error, result) {
           if (error) {
-            res
-              .status(200)
-              .json({
-                status: false,
-                meassage: 'Server Error:Pls Contact Database Administrator...',
-              });
+            res.status(200).json({
+              status: false,
+              meassage: 'Server Error:Pls Contact Database Administrator...',
+            });
             console.log(error);
           } else {
-            res
-              .status(200)
-              .json({
-                status: true,
-                message: 'Brand Icon Updated Successfully...',
-              });
+            res.status(200).json({
+              status: true,
+              message: 'Brand Icon Updated Successfully...',
+            });
           }
         },
       );
     } catch (e) {
       console.log('Error: ', e);
-      res
-        .status(200)
-        .json({
-          status: false,
-          message: 'Server Error: Please Contact Server Administrator...',
-        });
+      res.status(200).json({
+        status: false,
+        message: 'Server Error: Please Contact Server Administrator...',
+      });
     }
   },
 );
@@ -125,12 +108,10 @@ router.post('/delete_brand_data', function (req, res, next) {
       [req.body.brandid],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -141,12 +122,10 @@ router.post('/delete_brand_data', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
@@ -156,12 +135,10 @@ router.get('/display_all_brands', function (req, res, next) {
       'select * from brands where brandid!=0',
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -172,12 +149,10 @@ router.get('/display_all_brands', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
@@ -188,12 +163,10 @@ router.post('/fetch_all_brands_by_subcategoryid', function (req, res, next) {
       [req.body.subcategoryid],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -204,12 +177,10 @@ router.post('/fetch_all_brands_by_subcategoryid', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 

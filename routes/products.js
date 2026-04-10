@@ -12,6 +12,10 @@ router.post(
   '/submit_product',
   upload.single('picture'),
   function (req, res, next) {
+    if (!pool) {
+      console.log('DB not available, skipping query');
+      return;
+    }
     try {
       pool.query(
         'insert into products (categoryid,subcategoryid,brandid,productname,description,picture) values(?,?,?,?,?,?)',
@@ -26,35 +30,33 @@ router.post(
         function (error, result) {
           if (error) {
             console.log(error);
-            res
-              .status(200)
-              .json({
-                status: false,
-                message: 'Server Error:Pls Contact Database Administrator...',
-              });
+            res.status(200).json({
+              status: false,
+              message: 'Server Error:Pls Contact Database Administrator...',
+            });
           } else {
-            res
-              .status(200)
-              .json({
-                status: true,
-                message: 'Product Submitted Successfully...',
-              });
+            res.status(200).json({
+              status: true,
+              message: 'Product Submitted Successfully...',
+            });
           }
         },
       );
     } catch (e) {
       console.log('Error:', e);
-      res
-        .status(200)
-        .json({
-          status: false,
-          message: 'Server Error:Pls Contact Server Administrator...',
-        });
+      res.status(200).json({
+        status: false,
+        message: 'Server Error:Pls Contact Server Administrator...',
+      });
     }
   },
 );
 
 router.post('/edit_product_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'UPDATE products SET categoryid=?, subcategoryid=?,brandid=?,productname=?,description=? WHERE productid=?',
@@ -68,12 +70,10 @@ router.post('/edit_product_data', function (req, res, next) {
       ],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -84,12 +84,10 @@ router.post('/edit_product_data', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
@@ -97,54 +95,54 @@ router.post(
   '/edit_product_picture',
   upload.single('picture'),
   function (req, res, next) {
+    if (!pool) {
+      console.log('DB not available, skipping query');
+      return;
+    }
     try {
       pool.query(
         'update products set picture=? where productid=?',
         [req.file.filename, req.body.productid],
         function (error, result) {
           if (error) {
-            res
-              .status(200)
-              .json({
-                status: false,
-                meassage: 'Server Error:Pls Contact Database Administrator...',
-              });
+            res.status(200).json({
+              status: false,
+              meassage: 'Server Error:Pls Contact Database Administrator...',
+            });
             console.log(error);
           } else {
-            res
-              .status(200)
-              .json({
-                status: true,
-                message: 'Product Picture Updated Successfully!',
-              });
+            res.status(200).json({
+              status: true,
+              message: 'Product Picture Updated Successfully!',
+            });
           }
         },
       );
     } catch (e) {
       console.log('Error: ', e);
-      res
-        .status(200)
-        .json({
-          status: false,
-          message: 'Server Error: Please Contact Server Administrator...',
-        });
+      res.status(200).json({
+        status: false,
+        message: 'Server Error: Please Contact Server Administrator...',
+      });
     }
   },
 );
 
 router.post('/delete_product_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'delete from products where productid=?',
       [req.body.productid],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -155,27 +153,27 @@ router.post('/delete_product_data', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
 router.get('/display_all_products', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'select P.*,(select C.categoryname from category C where C.categoryid=P.categoryid )as categoryname, (select S.subcategoryname from subcategory S where S.subcategoryid=P.subcategoryid) as subcategoryname,(select B. brandname from brands B where B.brandid=P.brandid) as brandname from products P',
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -186,28 +184,28 @@ router.get('/display_all_products', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 
 router.post('/fetch_all_products_by_brandid', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'select P.* from products P where brandid=?',
       [req.body.brandid],
       function (error, result) {
         if (error) {
-          res
-            .status(200)
-            .json({
-              status: false,
-              meassage: 'Server Error:Pls Contact Database Administrator...',
-            });
+          res.status(200).json({
+            status: false,
+            meassage: 'Server Error:Pls Contact Database Administrator...',
+          });
           console.log(error);
         } else {
           res
@@ -218,12 +216,10 @@ router.post('/fetch_all_products_by_brandid', function (req, res, next) {
     );
   } catch (e) {
     console.log('Error: ', e);
-    res
-      .status(200)
-      .json({
-        status: false,
-        message: 'Server Error: Please Contact Server Administrator...',
-      });
+    res.status(200).json({
+      status: false,
+      message: 'Server Error: Please Contact Server Administrator...',
+    });
   }
 });
 

@@ -2,24 +2,22 @@ var express = require('express');
 var router = express.Router();
 var pool = require('./pool');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 /* GET home page. */
 router.post('/check_admin_login', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
+
   pool.query(
     'select * from admins where emailid=? and password=?',
     [req.body.emailid, req.body.password],
     function (error, result) {
       if (error) {
-        res
-          .status(200)
-          .json({
-            status: false,
-            message: 'Database Error: Pls Contact Database Administrator',
-          });
+        res.status(200).json({
+          status: false,
+          message: 'Database Error: Pls Contact Database Administrator',
+        });
       } else {
         if (result.length === 1) {
           res

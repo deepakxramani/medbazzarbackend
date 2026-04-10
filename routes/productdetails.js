@@ -3,14 +3,12 @@ var router = express.Router();
 var pool = require('./pool');
 var upload = require('./multer');
 
-if (!pool) {
-  console.log('DB not available, skipping query');
-  return;
-}
-
 router.post('/submit_product_details', upload.any(), function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
-    // console.log("FILES", req.files)
     var files = req.files.map((item) => {
       return item.filename;
     });
@@ -59,6 +57,10 @@ router.post('/submit_product_details', upload.any(), function (req, res, next) {
 });
 
 router.post('/edit_product_details_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'UPDATE productdetails SET categoryid=?, subcategoryid=?,brandid=?,productid=?,productsubname=?,description=?,weight=?,weighttype=?,type=?,packaging=?,qty=?,price=?,offerprice=?,offertype=? WHERE productdetailid=?',
@@ -104,6 +106,10 @@ router.post('/edit_product_details_data', function (req, res, next) {
 });
 
 router.post('/delete_product_details_data', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'delete from productdetails where productdetailid=?',
@@ -133,6 +139,10 @@ router.post('/delete_product_details_data', function (req, res, next) {
 });
 
 router.get('/display_all_product_details', function (req, res, next) {
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
   try {
     pool.query(
       'select PD.*,(select C.categoryname from category C where C.categoryid=PD.categoryid )as categoryname, (select S.subcategoryname from subcategory S where S.subcategoryid=PD.subcategoryid) as subcategoryname,(select B.brandname from brands B where B.brandid=PD.brandid) as brandname,(select P.productname from products P where P.productid=PD.productid) as productname from productdetails PD',
@@ -163,6 +173,11 @@ router.post('/edit_product_picture', upload.any(), function (req, res, next) {
   var files = req.files.map((item) => {
     return item.filename;
   });
+
+  if (!pool) {
+    console.log('DB not available, skipping query');
+    return;
+  }
 
   try {
     pool.query(
