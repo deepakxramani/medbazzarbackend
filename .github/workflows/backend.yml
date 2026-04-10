@@ -8,10 +8,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: medbazzarbackend
-
     steps:
       - uses: actions/checkout@v4
 
@@ -31,6 +27,5 @@ jobs:
           node server.js &
           sleep 5
 
-      # 🚀 THIS IS THE CD STEP
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
