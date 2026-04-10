@@ -1,0 +1,38 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'medbazzarbackend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: medbazzarbackend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: echo "No tests yet"
+
+      - name: Start server check
+        run: |
+          node server.js &
+          sleep 5
+
+      # 🚀 THIS IS THE CD STEP
+      - name: Trigger Render Deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
