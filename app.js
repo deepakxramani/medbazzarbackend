@@ -30,17 +30,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log('users:', typeof usersRouter);
-console.log('category:', typeof categoryRouter);
-console.log('brands:', typeof brandsRouter);
-console.log('subcategory:', typeof subcategoryRouter);
-console.log('products:', typeof productsRouter);
-console.log('productDetails:', typeof productDetailsRouter);
-console.log('admin:', typeof adminRouter);
-console.log('banners:', typeof bannersRouter);
-console.log('concerns:', typeof concernsRouter);
-console.log('userInterface:', typeof userInterfaceRouter);
-
 app.use('/users', usersRouter);
 app.use('/category', categoryRouter);
 app.use('/brands', brandsRouter);
