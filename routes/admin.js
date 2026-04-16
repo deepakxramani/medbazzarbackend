@@ -20,9 +20,16 @@ router.post('/check_admin_login', function (req, res, next) {
         });
       } else {
         if (result.length === 1) {
-          res
-            .status(200)
-            .json({ status: true, data: result[0], message: 'Success' });
+          res.status(200).json({
+            status: true,
+            data: {
+              adminname: result[0]?.adminname,
+              emailid: result[0]?.emailid,
+              mobileno: result[0]?.mobileno,
+              picture: result[0]?.picture,
+            },
+            message: 'Success',
+          });
         } else {
           res
             .status(200)
