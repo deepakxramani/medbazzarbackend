@@ -22,7 +22,6 @@ router.post('/show_all_banners', function (req, res) {
           res
             .status(200)
             .json({ status: true, message: 'Success', data: result });
-          console.log(result);
         }
       },
     );
@@ -54,7 +53,6 @@ router.get('/show_all_brands', function (req, res) {
           res
             .status(200)
             .json({ status: true, message: 'Success', data: result });
-          console.log(result);
         }
       },
     );
@@ -84,7 +82,6 @@ router.get('/display_all_category', function (req, res) {
         res
           .status(200)
           .json({ status: true, message: 'Success', data: result });
-        console.log(result);
       }
     });
   } catch (e) {
@@ -181,7 +178,6 @@ router.post(
             res
               .status(200)
               .json({ status: true, message: 'Success', data: result });
-            console.log(result);
           }
         },
       );
@@ -244,7 +240,6 @@ router.get('/display_all_concerns', function (req, res) {
         res
           .status(200)
           .json({ status: true, message: 'Success', data: result });
-        console.log(result);
       }
     });
   } catch (e) {
@@ -273,7 +268,6 @@ router.get('/display_all_category', function (req, res) {
         res
           .status(200)
           .json({ status: true, message: 'Success', data: result });
-        console.log(result);
       }
     });
   } catch (e) {
@@ -337,7 +331,6 @@ router.post(
               message: 'Server Error Pls Contact Database Administrator....',
             });
           } else {
-            console.log(result);
             res
               .status(200)
               .json({ status: true, message: 'Success', data: result });

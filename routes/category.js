@@ -162,7 +162,6 @@ router.get('/display_all_category', function (req, res) {
         res
           .status(200)
           .json({ status: true, message: 'Success', data: result });
-        console.log(result);
       }
     });
   } catch (e) {
