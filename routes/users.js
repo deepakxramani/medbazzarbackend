@@ -16,13 +16,12 @@ router.post('/submit_user', function (req, res) {
 
   try {
     pool.query(
-      'INSERT INTO userdata (mobileno, emailid, username, address) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM userdata WHERE emailid = ?)',
+      'insert into userdata (mobileno,emailid,username,address) values(?,?,?,?)',
       [
         req.body.mobileno,
         req.body.emailid,
         req.body.username,
         req.body.address,
-        req.body.emailid,
       ],
       function (error, result) {
         if (error) {
@@ -35,6 +34,7 @@ router.post('/submit_user', function (req, res) {
           res
             .status(200)
             .json({ status: true, message: 'Success', data: result });
+          console.log(result);
         }
       },
     );
@@ -55,7 +55,7 @@ router.post('/edit_user_data', function (req, res) {
 
   try {
     pool.query(
-      'UPDATE userdata SET username = ?, emailid = ?, address = ?, mobileno = ?, WHERE emailid = ?',
+      'UPDATE userdata SET username = ?, emailid = ?, address = ? WHERE mobileno = ?',
       [
         req.body.username,
         req.body.emailid,
@@ -73,6 +73,7 @@ router.post('/edit_user_data', function (req, res) {
           res
             .status(200)
             .json({ status: true, message: 'Details Updated!', data: result });
+          console.log(result);
         }
       },
     );
@@ -96,8 +97,8 @@ router.post(
 
     try {
       pool.query(
-        'UPDATE userdata SET picture = ? WHERE emailid = ?',
-        [req.file.filename, req.body.email],
+        'UPDATE userdata SET picture = ? WHERE mobileno = ?',
+        [req.file.filename, req.body.mobileno],
         function (error, result) {
           if (error) {
             console.log(error);
@@ -131,8 +132,8 @@ router.post('/check_userdata', function (req, res) {
 
   try {
     pool.query(
-      'select * from userdata where emailid=?',
-      [req.body.email],
+      'select * from userdata where mobileno=?',
+      [req.body.mobileno],
       function (error, result) {
         if (error) {
           console.log(error);
@@ -141,12 +142,13 @@ router.post('/check_userdata', function (req, res) {
             message: 'Server Error:Pls Contact Database Administrator...',
           });
         } else {
-          if (result.length >= 1) {
+          if (result.length == 1) {
             res.status(200).json({
               status: true,
               message: 'User found...',
               data: result[0],
             });
+            console.log(result);
           } else {
             res
               .status(200)
@@ -173,8 +175,8 @@ router.post('/check_user_address', function (req, res) {
   try {
     console.log('user', req.body);
     pool.query(
-      'select * from address where emailid=?',
-      [req.body.email],
+      'select * from address where mobileno=?',
+      [req.body.mobileno],
       function (error, result) {
         if (error) {
           console.log(error);
@@ -187,6 +189,7 @@ router.post('/check_user_address', function (req, res) {
             res
               .status(200)
               .json({ status: true, message: 'User found...', data: result });
+            console.log(result);
           } else {
             res
               .status(200)
@@ -234,6 +237,7 @@ router.post('/submit_user_address', function (req, res) {
             status: true,
             message: 'Address Submitted Sucessfully...',
           });
+          console.log(result);
         }
       },
     );
@@ -272,6 +276,7 @@ router.post('/save_order', function (req, res, next) {
             message: 'Server Error:Pls Contact Database Administrator...',
           });
         } else {
+          console.log(result);
           pool.query(
             'insert into orderdetails (orderid, productdetailid, price, offerprice, qty) values ?',
             [

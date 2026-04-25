@@ -59,6 +59,7 @@ router.get('/display_all_concerns', function (req, res) {
         res
           .status(200)
           .json({ status: true, message: 'Success', data: result });
+        console.log(result);
       }
     });
   } catch (e) {
@@ -161,6 +162,7 @@ router.post('/delete_concern_data', function (req, res, next) {
             message: 'Category Deleted Successfully...',
             data: result,
           });
+          // console.log(result)
         }
       },
     );

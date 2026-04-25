@@ -16,7 +16,6 @@ var adminRouter = require('./routes/admin');
 var bannersRouter = require('./routes/banner');
 var concernsRouter = require('./routes/concern');
 var userInterfaceRouter = require('./routes/userinterface');
-const authRoutes = require('./routes/auth');
 
 var app = express();
 
@@ -31,7 +30,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth', authRoutes);
 app.use('/users', usersRouter);
 app.use('/category', categoryRouter);
 app.use('/brands', brandsRouter);
