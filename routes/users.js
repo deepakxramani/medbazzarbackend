@@ -211,7 +211,6 @@ router.post('/submit_user_address', function (req, res) {
   }
 
   try {
-    console.log('user', req.body);
     pool.query(
       'insert into address (mobileno,address,landmark,pincode,city,state) values(?,?,?,?,?,?)',
       [
@@ -253,7 +252,6 @@ router.post('/save_order', function (req, res, next) {
   }
 
   try {
-    console.log('user', req.body);
     pool.query(
       'insert into orders (userid,mobileno,emailid,orderdate,paymentstatus,paymentid) values(?,?,?,?,?,?)',
       [
