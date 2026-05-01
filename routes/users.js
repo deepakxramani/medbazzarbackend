@@ -16,12 +16,13 @@ router.post('/submit_user', function (req, res) {
 
   try {
     pool.query(
-      'insert into userdata (mobileno,emailid,username,address) values(?,?,?,?)',
+      'INSERT INTO userdata (mobileno, emailid, username, address) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM userdata WHERE emailid = ?)',
       [
         req.body.mobileno,
         req.body.emailid,
         req.body.username,
         req.body.address,
+        req.body.emailid,
       ],
       function (error, result) {
         if (error) {
@@ -55,7 +56,7 @@ router.post('/edit_user_data', function (req, res) {
 
   try {
     pool.query(
-      'UPDATE userdata SET username = ?, emailid = ?, address = ? WHERE mobileno = ?',
+      'UPDATE userdata SET username = ?, emailid = ?, address = ?, mobileno = ?, WHERE emailid = ?',
       [
         req.body.username,
         req.body.emailid,
@@ -97,7 +98,8 @@ router.post(
 
     try {
       pool.query(
-        'UPDATE userdata SET picture = ? WHERE mobileno = ?',
+        'UPDATE userdata SET picture = ? WHERE emailid = ?',
+        [req.file.filename, req.body.email],
         [req.file.filename, req.body.mobileno],
         function (error, result) {
           if (error) {
@@ -132,8 +134,8 @@ router.post('/check_userdata', function (req, res) {
 
   try {
     pool.query(
-      'select * from userdata where mobileno=?',
-      [req.body.mobileno],
+      'select * from userdata where emailid=?',
+      [req.body.email],
       function (error, result) {
         if (error) {
           console.log(error);
@@ -142,7 +144,7 @@ router.post('/check_userdata', function (req, res) {
             message: 'Server Error:Pls Contact Database Administrator...',
           });
         } else {
-          if (result.length == 1) {
+          if (result.length >= 1) {
             res.status(200).json({
               status: true,
               message: 'User found...',
@@ -175,8 +177,8 @@ router.post('/check_user_address', function (req, res) {
   try {
     console.log('user', req.body);
     pool.query(
-      'select * from address where mobileno=?',
-      [req.body.mobileno],
+      'select * from address where emailid=?',
+      [req.body.email],
       function (error, result) {
         if (error) {
           console.log(error);
