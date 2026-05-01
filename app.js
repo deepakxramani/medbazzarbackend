@@ -16,6 +16,7 @@ var adminRouter = require('./routes/admin');
 var bannersRouter = require('./routes/banner');
 var concernsRouter = require('./routes/concern');
 var userInterfaceRouter = require('./routes/userinterface');
+const authRoutes = require('./routes/auth');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use('/admin', adminRouter);
 app.use('/banner', bannersRouter);
 app.use('/concern', concernsRouter);
 app.use('/userinterface', userInterfaceRouter);
+app.use('/auth', authRoutes);
 app.use(
   cors({
     origin: [
